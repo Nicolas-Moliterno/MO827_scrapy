@@ -32,9 +32,8 @@ class Command(ScrapyCommand):
         return "Run quick benchmark test"
 
     def run(self, args: list[str], opts: argparse.Namespace) -> None:
-
         """Execute the benchmark test with specified arguments and options.
-        
+
         Args:
             args (list[str]): Command-line arguments for the command.
             opts (argparse.Namespace): Parsed command-line options.
@@ -46,8 +45,8 @@ class Command(ScrapyCommand):
 
 
 class _BenchServer:
-
     """Context manager for starting and stopping a benchmark server subprocess."""
+
     def __enter__(self) -> None:
         """Start the benchmark server as a subprocess."""
         from scrapy.utils.test import get_testenv
