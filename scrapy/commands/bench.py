@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 class Command(ScrapyCommand):
     """Run a quick benchmark test by initiating a crawler process."""
+
     default_settings = {
         "LOG_LEVEL": "INFO",
         "LOGSTATS_INTERVAL": 1,
@@ -31,6 +32,7 @@ class Command(ScrapyCommand):
         return "Run quick benchmark test"
 
     def run(self, args: list[str], opts: argparse.Namespace) -> None:
+
         """Execute the benchmark test with specified arguments and options.
         
         Args:
@@ -44,6 +46,7 @@ class Command(ScrapyCommand):
 
 
 class _BenchServer:
+
     """Context manager for starting and stopping a benchmark server subprocess."""
     def __enter__(self) -> None:
         """Start the benchmark server as a subprocess."""
