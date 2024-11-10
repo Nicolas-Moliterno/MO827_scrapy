@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
 
 class Command(ScrapyCommand):
+    """Run a quick benchmark test by initiating a crawler process."""
     default_settings = {
         "LOG_LEVEL": "INFO",
         "LOGSTATS_INTERVAL": 1,
@@ -26,9 +27,16 @@ class Command(ScrapyCommand):
     }
 
     def short_desc(self) -> str:
+        """Return a brief description of the command."""
         return "Run quick benchmark test"
 
     def run(self, args: list[str], opts: argparse.Namespace) -> None:
+        """Execute the benchmark test with specified arguments and options.
+        
+        Args:
+            args (list[str]): Command-line arguments for the command.
+            opts (argparse.Namespace): Parsed command-line options.
+        """
         with _BenchServer():
             assert self.crawler_process
             self.crawler_process.crawl(_BenchSpider, total=100000)
@@ -36,7 +44,9 @@ class Command(ScrapyCommand):
 
 
 class _BenchServer:
+    """Context manager for starting and stopping a benchmark server subprocess."""
     def __enter__(self) -> None:
+        """Start the benchmark server as a subprocess."""
         from scrapy.utils.test import get_testenv
 
         pargs = [sys.executable, "-u", "-m", "scrapy.utils.benchserver"]
@@ -47,13 +57,14 @@ class _BenchServer:
         self.proc.stdout.readline()
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """Terminate the benchmark server subprocess and wait for it to finish."""
         self.proc.kill()
         self.proc.wait()
         time.sleep(0.2)
 
 
 class _BenchSpider(scrapy.Spider):
-    """A spider that follows all links"""
+    """Spider that follows all links on a given page and extracts further links."""
 
     name = "follow"
     total = 10000
