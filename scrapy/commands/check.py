@@ -77,7 +77,9 @@ class Command(ScrapyCommand):
         spider_loader = self.crawler_process.spider_loader
 
         with set_environ(SCRAPY_CHECK="true"):
-            contract_reqs = self._collect_contract_requests(args, spider_loader, conman, result, opts)
+            contract_reqs = self._collect_contract_requests(
+                args, spider_loader, conman, result, opts
+            )
 
             if opts.list:
                 self._list_contract_methods(contract_reqs, opts.verbose)
